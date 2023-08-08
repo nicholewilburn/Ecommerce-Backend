@@ -3,9 +3,32 @@ const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Products
+
+  // try {
+  //   const categoryData = await Category.findAll({
+  //     include: [
+  //       {
+  //         model: Category,
+  //         attributes: ['filename', 'description'],
+  //       },
+  //     ],
+  //   });
+
+  //   const categories = categoryData.map((gallery) =>
+  //     category.get({ plain: true })
+  //   );
+  //   res.render('homepage', {
+  //     galleries,
+  //     loggedIn: req.session.loggedIn,
+  //   });
+  // } catch (err) {
+  //   console.log(err);
+  //   res.status(500).json(err);
+  // }
+
 });
 
 router.get('/:id', (req, res) => {
