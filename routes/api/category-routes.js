@@ -7,45 +7,95 @@ router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Products
 
-  // try {
-  //   const categoryData = await Category.findAll({
-  //     include: [
-  //       {
-  //         model: Category,
-  //         attributes: ['filename', 'description'],
-  //       },
-  //     ],
-  //   });
+  try {
 
-  //   const categories = categoryData.map((gallery) =>
-  //     category.get({ plain: true })
-  //   );
-  //   res.render('homepage', {
-  //     galleries,
-  //     loggedIn: req.session.loggedIn,
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(500).json(err);
-  // }
+    const categories = await Category.findAll(
+      {
+        include: [
+            { model: Product}
+        ]
+    }
+    );
+    res.send(categories);
+
+  } catch (err) {
+      res.status(500).json(err);
+  }
 
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
+
+  try {
+
+    const aCat = await Category.findByPk(req.params.id, {
+      include: [
+        {
+          model: Product,
+        },
+      ],
+    });
+    res.send(aCat);
+
+  } catch (err) {
+      res.status(500).json(err);
+  }
+
 });
 
-router.post('/', (req, res) => {
-  // create a new category
+router.post('/', async (req, res) => {
+  //create a category
+
+  try {
+
+    const newCat = await Category.create(
+      //TODO: {???}
+    );
+
+    res.send(newCat);
+
+  } catch (err) {
+      res.status(500).json(err);
+  }
+
 });
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
+
+  try {
+
+    Category.update(
+      // TODO: {???}
+      {
+      where: {
+        id: req.params.id
+      }
+    })
+
+  } catch (err) {
+      res.status(500).json(err);
+  }
+
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
+
+  try {
+
+    Category.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+
+  } catch (err) {
+      res.status(500).json(err);
+  }
+
 });
 
 module.exports = router;
