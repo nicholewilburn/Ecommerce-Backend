@@ -57,7 +57,6 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
- // TODO: ???
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -123,6 +122,7 @@ router.put('/:id', (req, res) => {
       // console.log(err);
       res.status(400).json(err);
     });
+
 });
 
 router.delete('/:id', (req, res) => {

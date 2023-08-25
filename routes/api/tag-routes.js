@@ -46,40 +46,38 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  // create a new tag
-
   try {
-
-    const newTag = await Tag.create(
-      //TODO: {???}
-    );
+    const newTag = await Tag.create({
+      tag_name: req.body.tag_name // Provide the tag name in the request body
+    });
 
     res.send(newTag);
-
   } catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
-
 });
+
 
 router.put('/:id', async (req, res) => {
-  // update a tag's name by its `id` value
-
   try {
-
-    Tag.update(
-      // TODO: {???}
+    await Tag.update(
       {
-      where: {
-        id: req.params.id
+        tag_name: req.body.tag_name // Update the tag name with the new value from request body
+      },
+      {
+        where: {
+          id: req.params.id
+        }
       }
-    })
+    );
 
+    const updatedTag = await Tag.findByPk(req.params.id);
+    res.json(updatedTag);
   } catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
-
 });
+
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
