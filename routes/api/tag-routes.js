@@ -79,19 +79,23 @@ router.put('/:id', async (req, res) => {
 });
 
 
-router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
-
+router.delete('/:id', async (req, res) => {
+  // delete a category by its `id` value
   try {
-
-    Tag.destroy({
+   const tagDelete= await Tag.destroy({
       where: {
         id: req.params.id
       }
     })
+    if(!tagDelete){
+      res.status(500).json({message:"Tag Not Found"})
+    }else{
+      res.status(200).json({message:"Tag Deleted"})
+    }
 
   } catch (err) {
-      res.status(500).json(err);
+    console.error(err)
+      res.status(500).json({message:err});
   }
 
 });

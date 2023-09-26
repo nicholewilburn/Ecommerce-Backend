@@ -125,19 +125,23 @@ router.put('/:id', (req, res) => {
 
 });
 
-router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
-
+router.delete('/:id', async (req, res) => {
+  // delete a category by its `id` value
   try {
-
-    Product.destroy({
+   const productDelete= await Product.destroy({
       where: {
         id: req.params.id
       }
     })
+    if(!productDelete){
+      res.status(500).json({message:"Product Not Found"})
+    }else{
+      res.status(200).json({message:"Product Deleted"})
+    }
 
   } catch (err) {
-      res.status(500).json(err);
+    console.error(err)
+      res.status(500).json({message:err});
   }
 
 });
